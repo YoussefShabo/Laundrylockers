@@ -1,0 +1,21 @@
+/* Example: Common Styles for Dashboards */
+.dash-container {
+    padding: 2rem;
+    background-color: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  .dash-container h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .dash-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .dash-container li {
+    margin: 0.5rem 0;
+  }
+  

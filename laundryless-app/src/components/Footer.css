@@ -1,0 +1,32 @@
+.footer {
+  position: fixed; /* Sticks to the bottom */
+  bottom: 0; /* Aligns to the bottom of the viewport */
+  left: 0;
+  width: 100%; /* Spans the entire width */
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.footer-links li {
+  display: inline;
+  margin: 0 0.5rem;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+}
