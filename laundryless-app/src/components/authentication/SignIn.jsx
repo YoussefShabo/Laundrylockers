@@ -1,13 +1,14 @@
-// src/components/SignIn.jsx
 import React from "react";
-import { auth, googleProvider } from "../../firebase";
+import { auth, db, googleProvider } from "../../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const SignIn = () => {
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Signed in successfully!");
@@ -18,7 +19,22 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      const user = userCredential.user;
+
+      // Check if the customer already exists in Firestore
+      const customerDoc = await getDoc(doc(db, "customers", user.uid));
+
+      if (!customerDoc.exists()) {
+        // Add the customer to the Firestore "customers" collection
+        await setDoc(doc(db, "customers", user.uid), {
+          name: user.displayName || "Anonymous",
+          email: user.email,
+          phone: user.phoneNumber || "",
+          createdAt: new Date(),
+        });
+      }
+
       alert("Signed in with Google!");
     } catch (error) {
       alert(error.message);

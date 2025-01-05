@@ -67,6 +67,21 @@ const Navbar = () => {
                 <button className="auth-button">Sign Up</button>
               </Link>
             </li>
+            <li>
+              <Link to="/adminsignin">
+                <button className="auth-button">Admin Sign In</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/adminsignup">
+                <button className="auth-button">Admin Sign Up</button>
+              </Link>
+            </li>
+            <li>
+              <Link to="/driversignin">
+                <button className="auth-button">Driver Sign In</button>
+              </Link>
+            </li>
           </>
         )}
       </ul>

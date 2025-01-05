@@ -1,21 +1,43 @@
-/* Example: Common Styles for Dashboards */
-.dash-container {
-    padding: 2rem;
-    background-color: #f9f9f9;
-    min-height: 100vh;
-  }
-  
-  .dash-container h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .dash-container ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .dash-container li {
-    margin: 0.5rem 0;
-  }
-  
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: rgb(55, 55, 55);
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 500px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.close-modal-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.add-user-button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
