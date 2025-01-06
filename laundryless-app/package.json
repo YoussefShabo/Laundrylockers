@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "push": "git add . && git commit -m \"Automated commit\" && git push origin main"
+    "deploy": "git add . && git commit -m \"Automated commit\" && git push origin main"
   },
   "dependencies": {
     "firebase": "^11.1.0",
