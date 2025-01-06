@@ -1,11 +1,8 @@
 import React from "react";
-import Navbar from "./../components/Navbar";
-import Footer from "./../components/Footer";
-
+import "./HomePage.css";
 const HomePage = () => {
   return (
-    <div>
-      <Navbar />
+    <div className="HomePage">
       <header className="hero">
         <div className="hero-content">
           <h1>Welcome to Our App</h1>
@@ -38,7 +35,7 @@ const HomePage = () => {
           </p>
         </section>
       </main>
-      <Footer />
+      <div className="full"></div>
     </div>
   );
 };

@@ -1,16 +1,49 @@
-import React from "react";
-import "./UserDash.css"; // Optional: Create a CSS file for styling
+import React, { useState } from "react";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 const UserDash = () => {
+  const [orderDetails, setOrderDetails] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Add a new document to the orders collection
+      await addDoc(collection(db, "orders"), {
+        userId: "dummyUserId", // Replace with actual user ID if available
+        orderDetails,
+        createdAt: new Date(),
+      });
+
+      setSuccessMessage("Order placed successfully!");
+      setOrderDetails(""); // Clear the form
+    } catch (err) {
+      console.error("Error placing order:", err);
+      setSuccessMessage("Failed to place order. Try again later.");
+    }
+  };
+
   return (
-    <div className="user-dash">
+    <div>
       <h1>User Dashboard</h1>
-      <p>Manage your account, view orders, and track your deliveries.</p>
-      <ul>
-        <li>View Order History</li>
-        <li>Track Current Deliveries</li>
-        <li>Update Account Information</li>
-      </ul>
+      <h2>Place a Dummy Order</h2>
+      <form onSubmit={handlePlaceOrder}>
+        <label htmlFor="orderDetails">Order Details:</label>
+        <textarea
+          id="orderDetails"
+          value={orderDetails}
+          onChange={(e) => setOrderDetails(e.target.value)}
+          placeholder="Enter order details..."
+          required
+          style={{ width: "100%", height: "100px", marginBottom: "1rem" }}
+        />
+        <button type="submit" style={{ padding: "0.5rem 1rem" }}>
+          Place Order
+        </button>
+      </form>
+      {successMessage && <p>{successMessage}</p>}
     </div>
   );
 };

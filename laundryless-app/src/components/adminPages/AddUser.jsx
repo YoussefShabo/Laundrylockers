@@ -128,6 +128,7 @@ const AddUser = () => {
             <option value="employee">Employee</option>
           </select>
         </div>
+        <br />
         <button type="submit">Add User</button>
       </form>
       {success && <p style={{ color: "green" }}>{success}</p>}

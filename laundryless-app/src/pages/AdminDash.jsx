@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, updateDoc, doc } from "firebase/firestore";
 import AddUser from "../components/adminPages/AddUser";
 import "./AdminDash.css"; // Optional for styling
 
@@ -9,10 +9,12 @@ const AdminDash = () => {
   const [admins, setAdmins] = useState([]);
   const [drivers, setDrivers] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false); // Modal visibility state
+  const [selectedDriver, setSelectedDriver] = useState({}); // Track selected driver for each order
 
-  // Fetch customers and users data
+  // Fetch customers, users, and orders data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,10 +32,18 @@ const AdminDash = () => {
           ...doc.data(),
         }));
 
+        // Fetch orders
+        const ordersSnapshot = await getDocs(collection(db, "orders"));
+        const ordersData = ordersSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
         setCustomers(customersData);
         setAdmins(usersData.filter((user) => user.role === "admin"));
         setDrivers(usersData.filter((user) => user.role === "driver"));
         setEmployees(usersData.filter((user) => user.role === "employee"));
+        setOrders(ordersData);
       } catch (err) {
         console.error("Error fetching data:", err);
       } finally {
@@ -44,32 +54,99 @@ const AdminDash = () => {
     fetchData();
   }, []);
 
+  const handleAssignDriver = async (orderId) => {
+    if (!selectedDriver[orderId]) {
+      alert("Please select a driver.");
+      return;
+    }
+
+    try {
+      const orderRef = doc(db, "orders", orderId);
+      await updateDoc(orderRef, {
+        assignedDriverId: selectedDriver[orderId],
+      });
+
+      // Update orders state locally to reflect the change
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderId
+            ? { ...order, assignedDriverId: selectedDriver[orderId] }
+            : order
+        )
+      );
+
+      alert("Driver assigned successfully!");
+    } catch (err) {
+      console.error("Error assigning driver:", err);
+      alert("Failed to assign driver. Please try again.");
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
+    <div className="AdminDash">
       <h1>Admin Dashboard</h1>
 
-      <button onClick={() => setShowModal(true)} className="add-user-button">
-        Add User
-      </button>
-
-      {/* Modal */}
-      {showModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <button
-              onClick={() => setShowModal(false)}
-              className="close-modal-button"
-            >
-              Close
-            </button>
-            <AddUser onClose={() => setShowModal(false)} />
-          </div>
-        </div>
-      )}
+      {/* Orders Table */}
+      <h2>Orders</h2>
+      <table border="1" style={{ width: "100%", marginBottom: "20px" }}>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Order Details</th>
+            <th>Pickup Address</th>
+            <th>Assigned Driver</th>
+            <th>Created At</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order, index) => (
+            <tr key={order.id}>
+              <td>{index + 1}</td>
+              <td>{order.orderDetails}</td>
+              <td>{order.pickupAddress || "N/A"}</td>
+              <td>
+                {order.assignedDriverId ? (
+                  drivers.find((d) => d.id === order.assignedDriverId)?.name ||
+                  "Unknown Driver"
+                ) : (
+                  <select
+                    value={selectedDriver[order.id] || ""}
+                    onChange={(e) =>
+                      setSelectedDriver({
+                        ...selectedDriver,
+                        [order.id]: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">Select Driver</option>
+                    {drivers.map((driver) => (
+                      <option key={driver.id} value={driver.id}>
+                        {driver.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </td>
+              <td>{order.createdAt?.toDate().toLocaleString()}</td>
+              <td>
+                {!order.assignedDriverId && (
+                  <button
+                    onClick={() => handleAssignDriver(order.id)}
+                    style={{ padding: "0.5rem", cursor: "pointer" }}
+                  >
+                    Confirm
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {/* Customers Table */}
       <h2>Customers</h2>
@@ -95,7 +172,6 @@ const AdminDash = () => {
           ))}
         </tbody>
       </table>
-
       {/* Admins Table */}
       <h2>Admins</h2>
       <table border="1" style={{ width: "100%", marginBottom: "20px" }}>
@@ -172,6 +248,26 @@ const AdminDash = () => {
           ))}
         </tbody>
       </table>
+      <button onClick={() => setShowModal(true)} className="add-user-button">
+        Add Employee
+      </button>
+
+      {/* Modal */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <button
+              onClick={() => setShowModal(false)}
+              className="close-modal-button"
+            >
+              X
+            </button>
+            <AddUser onClose={() => setShowModal(false)} />
+          </div>
+        </div>
+      )}
+
+      <div className="full"></div>
     </div>
   );
 };

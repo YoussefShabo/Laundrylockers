@@ -10,7 +10,9 @@
   align-items: center;
   z-index: 1000;
 }
-
+.AdminDash{
+  padding: 100px 120px;
+}
 .modal {
   background: rgb(55, 55, 55);
   padding: 20px;
@@ -23,9 +25,12 @@
 
 .close-modal-button {
   position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
   top: 10px;
   right: 10px;
-  background: red;
+  background: rgb(175, 39, 39);
   color: white;
   border: none;
   padding: 5px 10px;
@@ -33,6 +38,7 @@
 }
 
 .add-user-button {
+  margin-top: 20px;
   margin-bottom: 20px;
   padding: 10px 20px;
   background: #007bff;
@@ -40,4 +46,39 @@
   border: none;
   cursor: pointer;
   border-radius: 4px;
+  width: 200px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse; /* Removes gaps between table cells */
+  table-layout: fixed; /* Enables setting column widths */
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+  overflow: hidden; /* Ensures content doesn't overflow the cell */
+  text-overflow: ellipsis; /* Adds ellipsis for overflowing text */
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+th:first-child, td:first-child {
+  width: 5%; /* Narrowest column for the # column */
+}
+
+th:nth-child(2), td:nth-child(2), /* Name column */
+th:nth-child(3), td:nth-child(3) /* Email column */ {
+  width: 30%; /* Allocates more space to Name and Email columns */
+}
+
+th:nth-child(4), td:nth-child(4),
+th:nth-child(5), td:nth-child(5),
+th:nth-child(6), td:nth-child(6) {
+  width: auto; /* Remaining columns take the remaining space equally */
+}
+
+thead {
+  background-color: #333; /* Optional: Adds background color to headers */
+  color: #fff; /* Optional: White text for headers */
 }

@@ -3,6 +3,7 @@ import { auth, db } from "../../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import "./DriverSignIn.css";
 
 const DriverSignIn = () => {
   const [email, setEmail] = useState("");
@@ -36,7 +37,7 @@ const DriverSignIn = () => {
   };
 
   return (
-    <div>
+    <div className="DriverSignIn">
       <h2>Driver Sign In</h2>
       <form onSubmit={handleSignIn}>
         <div>

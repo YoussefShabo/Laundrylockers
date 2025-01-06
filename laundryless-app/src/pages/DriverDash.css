@@ -1,21 +1,42 @@
 /* Example: Common Styles for Dashboards */
-.dash-container {
+/* .dash-container {
     padding: 2rem;
     background-color: #f9f9f9;
     min-height: 100vh;
+  } */
+  .DriverDash{
+    padding: 100px 120px;
   }
-  
-  .dash-container h1 {
+
+  .DriverDash h1 {
     font-size: 2rem;
     margin-bottom: 1rem;
   }
   
-  .dash-container ul {
-    list-style-type: none;
+  .DriverDash p {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .DriverDash ul {
+    list-style: none;
     padding: 0;
   }
   
-  .dash-container li {
-    margin: 0.5rem 0;
+  .DriverDash ul li {
+    background-color: #916b6b;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
+  .alert {
+    background-color: #ffcc00;
+    color: #333;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+    border-radius: 5px;
+    font-weight: bold;
+  }

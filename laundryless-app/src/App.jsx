@@ -13,6 +13,7 @@ import AdminSignUp from "./components/authentication/AdminSignUp";
 import AdminSignIn from "./components/authentication/AdminSignIn";
 import RoleRoute from "./components/RoleRoute";
 import DriverSignIn from "./components/authentication/DriverSignIn";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -38,6 +39,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/account" element={<AccountSettings />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };

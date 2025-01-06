@@ -2,6 +2,7 @@ import React from "react";
 import { auth, db, googleProvider } from "../../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import "./SignIn.css";
 
 const SignIn = () => {
   const handleEmailSignIn = async (e) => {
@@ -42,7 +43,7 @@ const SignIn = () => {
   };
 
   return (
-    <div>
+    <div className="SignIn">
       <form onSubmit={handleEmailSignIn}>
         <h2>Sign In</h2>
         <input name="email" type="email" placeholder="Email" required />

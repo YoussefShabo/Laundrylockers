@@ -4,7 +4,9 @@
     background-color: #f9f9f9;
     min-height: 100vh;
   }
-  
+  .UserDash{
+    padding: 100px 120px;
+  }
   .dash-container h1 {
     font-size: 2rem;
     margin-bottom: 1rem;

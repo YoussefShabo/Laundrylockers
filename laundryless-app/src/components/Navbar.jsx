@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -26,7 +27,9 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <Link to="/">Logo</Link>
+        <Link to="/">
+          <img src={Logo} alt="Logo" className="logo" />
+        </Link>
       </div>
       <ul className="navbar-links">
         <li>

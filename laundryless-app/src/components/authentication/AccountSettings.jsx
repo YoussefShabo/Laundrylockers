@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { auth } from "../../firebase";
 import { updatePassword, updateEmail } from "firebase/auth";
+import "./AccountSettings.css";
 
 const AccountSettings = () => {
   const [email, setEmail] = useState(auth.currentUser?.email || "");
@@ -26,7 +27,7 @@ const AccountSettings = () => {
   };
 
   return (
-    <div>
+    <div className="AccountSettings">
       <h2>Account Settings</h2>
       <div>
         <label>Update Email</label>
@@ -46,6 +47,7 @@ const AccountSettings = () => {
         />
         <button onClick={handleUpdatePassword}>Update Password</button>
       </div>
+      <div className="full"></div>
     </div>
   );
 };
