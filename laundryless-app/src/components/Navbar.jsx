@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // 1) Import useNavigate
 import "./Navbar.css";
 import Logo from "../assets/logo.png";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
+  const navigate = useNavigate(); // 2) Create navigate instance
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -19,6 +20,7 @@ const Navbar = () => {
     try {
       await signOut(auth);
       alert("You have signed out!");
+      navigate("/"); // 3) Redirect to the main directory
     } catch (error) {
       alert("Error signing out: " + error.message);
     }
