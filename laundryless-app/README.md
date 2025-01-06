@@ -65,4 +65,4 @@ in addition adding the flag --message allows you add a special message to the co
 
 npm run deploy --message "Your custom commit message here"
 
-Please ensure your contributions adhere to the project's coding standards and include appropriate tests.
+Please ensure your contributions adhere to the project's coding standards and include appropriate tests.test
