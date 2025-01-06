@@ -3,7 +3,7 @@ import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import "./AdminSignIn.css";
+import "./AdminSignUp.css";
 
 const AdminSignUp = () => {
   const [email, setEmail] = useState("");
@@ -38,7 +38,7 @@ const AdminSignUp = () => {
   };
 
   return (
-    <div className="AdminSignIn">
+    <div className="AdminSignUp">
       <h2>Admin Sign Up</h2>
       <form onSubmit={handleSignUp}>
         <input
