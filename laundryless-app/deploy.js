@@ -3,66 +3,72 @@ import { exec } from 'child_process';
 
 const git = simpleGit();
 
-// Retrieve the commit message from command line arguments
-const args = process.argv.slice(2);
-let commitMessage = 'Automated commit';
+// Retrieve the commit message from environment variables
+const commitMessage = process.env.npm_config_message || 'Automated commit';
 
-// Parse --message flag
-const messageIndex = args.indexOf('--message');
-if (messageIndex !== -1 && args[messageIndex + 1]) {
-  commitMessage = args[messageIndex + 1];
+// Function to execute shell commands and return a Promise
+function executeCommand(command) {
+  return new Promise((resolve, reject) => {
+    const process = exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject({ error, stderr });
+        return;
+      }
+      resolve(stdout);
+    });
+
+    // Pipe the stdout and stderr to the parent process
+    process.stdout.pipe(process.stdout);
+    process.stderr.pipe(process.stderr);
+  });
 }
 
 // Async function to perform deploy steps
 async function deploy() {
+  let lastCommitHash = null;
   try {
-    // Stage all changes
+    console.log('Staging all changes...');
     await git.add('.');
 
-    // Check if there are changes to commit
-    const status = await git.status();
-    if (status.staged.length === 0 && status.modified.length === 0) {
-      console.log('No changes to commit.');
-    } else {
-      // Commit changes
-      await git.commit(commitMessage);
-      console.log(`Committed changes with message: "${commitMessage}"`);
-    }
+    console.log('Committing changes...');
+    const commitResult = await git.commit(commitMessage);
+    console.log(`Committed changes with message: "${commitMessage}"`);
 
-    // Push to main branch
+    // Get the latest commit hash
+    const log = await git.log({ n: 1 });
+    lastCommitHash = log.latest.hash;
+    console.log(`Latest commit hash: ${lastCommitHash}`);
+
+    console.log('Pushing to origin main...');
     await git.push('origin', 'main');
     console.log('Pushed to origin main.');
 
-    // Run the build command
     console.log('Building the project...');
-    exec('npm run build', (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Build error: ${error.message}`);
-        process.exit(1);
-      }
-      if (stderr) {
-        console.error(`Build stderr: ${stderr}`);
-        // Not exiting; build might still succeed
-      }
-      console.log(`Build stdout: ${stdout}`);
+    await executeCommand('npm run build');
+    console.log('Build succeeded.');
 
-      // Deploy to Firebase
-      console.log('Deploying to Firebase...');
-      exec('firebase deploy', (deployError, deployStdout, deployStderr) => {
-        if (deployError) {
-          console.error(`Deploy error: ${deployError.message}`);
-          process.exit(1);
-        }
-        if (deployStderr) {
-          console.error(`Deploy stderr: ${deployStderr}`);
-          // Not exiting; deploy might still succeed
-        }
-        console.log(`Deploy stdout: ${deployStdout}`);
-        console.log('Deployment complete!');
-      });
-    });
-  } catch (err) {
-    console.error(`Deployment failed: ${err.message}`);
+    console.log('Deploying to Firebase...');
+    await executeCommand('firebase deploy');
+    console.log('Deployment complete!');
+  } catch (deployError) {
+    console.error(`Deployment failed: ${deployError.error ? deployError.error.message : deployError}`);
+
+    if (lastCommitHash) {
+      try {
+        console.log('Reverting the last commit...');
+        // Revert the last commit without editing the commit message
+        await git.revert(lastCommitHash, { '--no-edit': null });
+        console.log('Reverted the last commit.');
+
+        console.log('Pushing the revert to origin main...');
+        await git.push('origin', 'main');
+        console.log('Reverted commit pushed to origin main.');
+      } catch (revertError) {
+        console.error(`Failed to revert the last commit: ${revertError}`);
+        console.error('Manual intervention required to fix the repository state.');
+      }
+    }
+
     process.exit(1);
   }
 }
