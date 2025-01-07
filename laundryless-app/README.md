@@ -66,3 +66,24 @@ in addition adding the flag --message allows you add a special message to the co
 npm run deploy --message "Your custom commit message here"
 
 Please ensure your contributions adhere to the project's coding standards and include appropriate tests.test
+
+In case something wrong happend and you already sent the changes with 
+
+***npm run deploy
+
+Staging all changes...
+Committing changes...
+Committed changes with message: "Automated commit"
+---------- Latest commit hash: 4744f209f27a234b488a5b71fb62ff340f68786e
+Pushing to origin main...
+Pushed to origin main.
+Building the project...
+Build succeeded.
+Deploying to Firebase...
+Deployment complete!
+
+use the Hash for the commit and revert the changes you did 
+
+*** git revert <Hash>
+
+Commit the changes which sends a new deployment with the last working changes 
