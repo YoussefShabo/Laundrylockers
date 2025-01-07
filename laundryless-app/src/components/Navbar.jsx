@@ -43,6 +43,9 @@ const Navbar = () => {
         {user ? (
           <>
             <li>
+              <Link to="/account">Account</Link>
+            </li>
+            <li>
               <Link to="/admindash">Admin Dashboard</Link>
             </li>
             <li>

@@ -1,3 +1,4 @@
+// src/components/AccountSettings.jsx
 import React, { useState } from "react";
 import { auth } from "../../firebase";
 import { updatePassword, updateEmail } from "firebase/auth";
@@ -26,26 +27,27 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className={`AccountSettings ${theme}`}>
-      {/* <button className="theme-toggle-button" onClick={toggleTheme}>Change Theme</button> */}
-      <div className="settings-section">
+    <div className="AccountSettings">
+      <h2>Account Settings</h2>
+      <div>
         <label>Update Email</label>
-        <input className="input-field"
+        <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <button onClick={handleUpdateEmail}>Update Email</button>
       </div>
-      <div className="settings-section">
+      <div>
         <label>Update Password</label>
-        <input className="input-field"
+        <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button onClick={handleUpdatePassword}>Update Password</button>
       </div>
+      <div className="full"></div>
     </div>
   );
 };
