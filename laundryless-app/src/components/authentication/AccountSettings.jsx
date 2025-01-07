@@ -1,4 +1,3 @@
-// src/components/AccountSettings.jsx
 import React, { useState } from "react";
 import { auth } from "../../firebase";
 import { updatePassword, updateEmail } from "firebase/auth";
