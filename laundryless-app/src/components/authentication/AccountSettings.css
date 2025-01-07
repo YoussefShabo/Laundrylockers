@@ -1,3 +1,48 @@
-.AccountSettings{
+/* Keep the existing styles */
+.AccountSettings {
     padding: 100px 120px;
+}
+
+/* A container for form sections */
+.settings-section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+/* Basic button style (shared by toggle or any other button) */
+button {
+    padding: 8px 12px;
+    cursor: pointer;
+    width: 180px;
+}
+
+/* Light Theme */
+.light-mode {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* Dark Theme */
+.dark-mode {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+/* Optional: Style the theme toggle button differently */
+.theme-toggle-button {
+    margin-bottom: 20px;
+    border: 1px solid #888;
+    background-color: #ccc;
+    color: #000;
+    font-weight: bold;
+}
+
+.theme-toggle-button:hover {
+    background-color: #aaa;
+}
+
+.input-field {
+    height: 25px;
 }

@@ -1,23 +1,117 @@
-/* Example: Common Styles for Dashboards */
+/* UserDash.css */
+
+/* Container Styles */
 .dash-container {
-    padding: 2rem;
-    background-color: #f9f9f9;
-    min-height: 100vh;
-  }
-  .UserDash{
-    padding: 100px 120px;
-  }
-  .dash-container h1 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .dash-container ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .dash-container li {
-    margin: 0.5rem 0;
-  }
-  
+  padding: 2rem;
+  background-color: #242424;
+  min-height: 100vh;
+}
+
+.UserDash {
+  padding: 100px 120px;
+}
+
+.dash-container h1 {
+  padding: 75px 120px;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.dash-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.dash-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dash-container li {
+  margin: 0.5rem 0;
+}
+
+/* Secondary Navbar Styles */
+.secondary-navbar {
+  display: flex;
+  justify-content: center;
+  background-color: #373636;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+.nav-button {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 0.5rem;
+  transition: all 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.nav-button:hover {
+  color: #054a93;
+}
+
+.active-nav-button {
+  border-bottom: 2px solid #007BFF;
+  font-weight: bold;
+  color: #007BFF;
+}
+
+/* Content Container */
+.content-container {
+  padding: 1rem;
+  background-color: #6e6b6b;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+form textarea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  resize: vertical;
+}
+
+form button {
+  padding: 0.5rem 1rem;
+  background-color: #0a3665;
+  color: #818181;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+/* Success Message */
+.success-message {
+  margin-top: 1rem;
+  color: rgb(16, 200, 16);
+  font-weight: bold;
+}
+
+.error-message {
+  margin-top: 1rem;
+  color: red;
+  font-weight: bold;
+}
