@@ -42,7 +42,7 @@ const UserDash = () => {
     try {
       // Create a new document in "orders" collection
       await addDoc(collection(db, "orders"), {
-        createdBy: currentUser.displayName, // User's unique ID
+        createdBy: currentUser.uid, // Use user's unique ID
         orderDetails,
         createdAt: new Date(),
       });
