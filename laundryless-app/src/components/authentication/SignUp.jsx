@@ -1,92 +1,104 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import "./SignUp.css";
 
 const SignUp = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
-      // Create the user's Firebase Auth account
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const uid = userCredential.user.uid;
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-      // Add the user to the Firestore "customers" collection
-      await setDoc(doc(db, "customers", uid), {
-        name,
-        email,
-        phone,
-        createdAt: new Date(),
+      // Update the user's profile with the username
+      await updateProfile(user, { displayName: username });
+
+      // Create a user document in Firestore
+      await setDoc(doc(db, "customers", user.uid), {
+        displayName: username,
+        email: user.email,
       });
 
-      alert("Customer account created successfully!");
-      setName("");
-      setEmail("");
-      setPassword("");
-      setPhone("");
-    } catch (err) {
-      setError(err.message);
+      // Redirect to the user dashboard
+      navigate("/userdash");
+    } catch (error) {
+      console.error("Error signing up:", error);
+      setErrorMessage(error.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // Create a user document in Firestore if it doesn't exist
+      const userDocRef = doc(db, "customers", user.uid);
+      await setDoc(userDocRef, {
+        displayName: user.displayName,
+        email: user.email,
+      }, { merge: true });
+
+      // Redirect to the user dashboard
+      navigate("/userdash");
+    } catch (error) {
+      console.error("Error signing in with Google:", error);
+      setErrorMessage(error.message);
     }
   };
 
   return (
-    <form onSubmit={handleSignUp}>
-      <h2>Create Customer Account</h2>
-      <div>
-        <label>Name:</label>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Phone:</label>
-        <input
-          type="tel"
-          placeholder="Phone Number"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Sign Up</button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </form>
+    <div className="SignUp">
+      <h1>Sign Up</h1>
+      <form onSubmit={handleSignUp}>
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <button type="submit">Sign Up</button>
+      </form>
+      <button onClick={handleGoogleSignIn} className="google-signin-button">
+        Sign Up with Google
+      </button>
+    </div>
   );
 };
 

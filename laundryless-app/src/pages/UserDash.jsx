@@ -40,11 +40,17 @@ const UserDash = () => {
     }
 
     try {
+      console.log("CurrentUser");
+      console.log(currentUser);
+      console.log(currentUser.auth);
+      console.log(currentUser.displayName);
+
       // Create a new document in "orders" collection
       await addDoc(collection(db, "orders"), {
         createdBy: currentUser.uid, // Use user's unique ID
         orderDetails,
         createdAt: new Date(),
+        UserID: currentUser.displayName
       });
       setSuccessMessage("Order placed successfully!");
       setErrorMessage("");

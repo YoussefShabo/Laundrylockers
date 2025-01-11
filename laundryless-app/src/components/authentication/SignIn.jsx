@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, db, googleProvider } from "../../firebase";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import "./SignIn.css";
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -13,6 +15,7 @@ const SignIn = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Signed in successfully!");
+      navigate("/userdash");
     } catch (error) {
       alert(error.message);
     }
