@@ -10,9 +10,11 @@
   align-items: center;
   z-index: 1000;
 }
-.AdminDash{
+
+.AdminDash {
   padding: 100px 120px;
 }
+
 .modal {
   background: rgb(55, 55, 55);
   padding: 20px;
@@ -48,6 +50,11 @@
   border-radius: 4px;
   width: 200px;
 }
+
+.table-container {
+  overflow-x: auto;
+}
+
 table {
   width: 100%;
   border-collapse: collapse; /* Removes gaps between table cells */
@@ -81,4 +88,38 @@ th:nth-child(6), td:nth-child(6) {
 thead {
   background-color: #333; /* Optional: Adds background color to headers */
   color: #fff; /* Optional: White text for headers */
+}
+
+th {
+  background-color: #898989;
+  cursor: pointer; /* Change cursor to indicate clickable columns for sorting */
+}
+
+th.resizable {
+  position: relative;
+  
+}
+
+th.resizable::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  cursor: col-resize;
+  background-color: transparent;
+}
+
+
+
+th.sortable::after {
+  content: ' ^'; /* Up arrow for ascending sort */
+  position: absolute;
+  cursor: pointer;
+  right: 20px;
+}
+
+th.sortable.desc::after {
+  content: ' \u25BC'; /* Down arrow for descending sort */
 }

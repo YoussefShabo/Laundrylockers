@@ -1,0 +1,78 @@
+.Sidebar {
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s;
+}
+
+.Sidebar.collapsed {
+  width: 0px;
+  padding: 10px;
+}
+
+.Sidebar.open {
+  width: 200px;
+}
+
+.Sidebar h2 {
+  margin-top: 0;
+}
+
+.Sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.Sidebar ul li {
+  margin: 15px 0;
+}
+
+.Sidebar ul li ul {
+  list-style: none;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.Sidebar ul li ul li {
+  margin: 10px 0;
+}
+
+.Sidebar ul li a,
+.Sidebar ul li button {
+  color: #fff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.Sidebar ul li button:hover,
+.Sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+.burger-button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  margin-top: 100px;
+}
+
+.content {
+  margin-left: 220px;
+  padding: 20px;
+  transition: margin-left 0.3s;
+}
+
+.content.sidebar-collapsed {
+  margin-left: 80px;
+}
